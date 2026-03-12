@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Frases | Jhonatan Betancourt</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --bg-primary: #000000;
+            --bg-card: #0f0f0f;
+            --text-primary: #ffffff;
+            --text-secondary: #888888;
+            --accent-gold: #ffd700;
+            --accent-gold-dim: #b8941e;
+            --border-subtle: #1a1a1a;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding-top: 60px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Navigation */
+        .nav-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+            z-index: 1000;
+            padding: 15px;
+            box-shadow: 0 4px 30px rgba(255, 215, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 10px 24px;
+            border-radius: 25px;
+            border: 1px solid transparent;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.3), transparent);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .nav-link:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .nav-link.active {
+            color: var(--accent-gold);
+            border-color: var(--accent-gold);
+            background: rgba(255, 215, 0, 0.05);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            position: relative;
+        }
+
+        .dev-badge {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            opacity: 0.6;
+            margin-bottom: 20px;
+            transition: opacity 0.3s;
+        }
+
+        .dev-badge:hover {
+            opacity: 1;
+        }
+
+        .dev-badge a {
+            color: var(--accent-gold);
+            text-decoration: none;
+            transition: text-shadow 0.3s;
+        }
+
+        .dev-badge a:hover {
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .header-decoration {
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+            margin: 0 auto 25px;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        h1 {
+            font-family: 'Crimson Text', serif;
+            font-size: clamp(2.5rem, 12vw, 5rem);
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #ffffff 0%, var(--accent-gold) 50%, #ffffff 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 4s ease infinite;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            letter-spacing: 0.02em;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .subtitle {
+            font-size: clamp(1.2rem, 6vw, 2rem);
+            color: var(--accent-gold);
+            font-weight: 300;
+            letter-spacing: 0.5em;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Quotes */
+        #quotes-section {
+            scroll-margin-top: 80px;
+        }
+
+        .quotes-grid {
+            display: grid;
+            gap: 30px;
+            padding: 30px 0 50px;
+        }
+
+        .quote-card {
+            background: linear-gradient(135deg, rgba(15, 15, 15, 0.9), rgba(25, 25, 25, 0.8));
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            padding: 35px 25px;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .quote-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+            transform: scaleX(0);
+            transition: transform 0.6s ease;
+        }
+
+        .quote-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 215, 0, 0.1), transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .quote-card:hover::after {
+            opacity: 1;
+        }
+
+        .quote-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(255, 215, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(255, 215, 0, 0.2), 0 0 30px rgba(255, 215, 0, 0.1);
+        }
+
+        .quote-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .quote-number {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), rgba(255, 215, 0, 0.15));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .quote-text {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.15rem;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            font-style: italic;
+            position: relative;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .quote-text::before {
+            content: '"';
+            font-size: 4rem;
+            position: absolute;
+            top: -30px;
+            left: -10px;
+            color: var(--accent-gold);
+            opacity: 0.15;
+            font-family: 'Crimson Text', serif;
+        }
+
+        .quote-footer {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .author-name {
+            font-weight: 700;
+            color: var(--accent-gold);
+            font-size: 1rem;
+            margin-bottom: 8px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .author-social {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .author-social:hover {
+            color: var(--accent-gold);
+            gap: 12px;
+        }
+
+        .social-icon {
+            width: 18px;
+            height: 18px;
+            transition: all 0.3s;
+        }
+
+        .author-social:hover .social-icon {
+            filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+        }
+
+        /* Game */
+        #game-section {
+            scroll-margin-top: 80px;
+        }
+
+        .game-section {
+            margin: 50px 0;
+            padding: 40px 25px;
+            background: linear-gradient(135deg, rgba(15, 15, 15, 0.9), rgba(25, 25, 25, 0.8));
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 215, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .game-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .game-title {
+            text-align: center;
+            font-family: 'Crimson Text', serif;
+            font-size: clamp(2rem, 8vw, 3rem);
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            font-weight: 700;
+        }
+
+        .game-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            font-size: 0.9rem;
+        }
+
+        #gameCanvas {
+            display: block;
+            margin: 0 auto;
+            background: linear-gradient(180deg, #000000, #0a0a0a);
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            border-radius: 10px;
+            max-width: 100%;
+            height: auto;
+            touch-action: none;
+            cursor: pointer;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 0 30px rgba(255, 215, 0, 0.05);
+            transition: box-shadow 0.3s;
+        }
+
+        #gameCanvas:active {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 0 50px rgba(255, 215, 0, 0.1);
+        }
+
+        .game-info {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .game-score {
+            font-size: 1.3rem;
+            color: var(--accent-gold);
+            font-weight: 800;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            margin-bottom: 8px;
+        }
+
+        .game-controls {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        @media (min-width: 768px) {
+            .quotes-grid {
+                grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+                gap: 35px;
+            }
+
+            .quote-card {
+                padding: 40px 35px;
+            }
+
+            .nav-link:hover {
+                color: var(--accent-gold);
+                border-color: var(--accent-gold);
+                background: rgba(255, 215, 0, 0.05);
+                box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .quote-card {
+            animation: fadeInUp 0.6s ease backwards;
+        }
+
+        .quote-card:nth-child(1) { animation-delay: 0.1s; }
+        .quote-card:nth-child(2) { animation-delay: 0.2s; }
+        .quote-card:nth-child(3) { animation-delay: 0.3s; }
+        .quote-card:nth-child(4) { animation-delay: 0.4s; }
+        .quote-card:nth-child(5) { animation-delay: 0.5s; }
+        .quote-card:nth-child(n+6) { animation-delay: 0.6s; }
+    </style>
+</head>
+<body>
+    <div class="stars" id="starsContainer"></div>
+
+    <nav class="nav-header">
+        <div class="nav-container">
+            <a href="#quotes-section" class="nav-link active">Frases</a>
+            <a href="#game-section" class="nav-link">Minijuego</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <div class="dev-badge">
+                Desarrollado por <a href="https://instagram.com/jhonatan_alejandro_b" target="_blank">@jhonatan_alejandro_b</a>
+            </div>
+            <div class="header-decoration"></div>
+            <h1>Frases</h1>
+            <p class="subtitle">✦ ◆ ✧ ⟡ ✦</p>
+        </header>
+
+        <section id="quotes-section">
+            <div class="quotes-grid" id="quotesGrid"></div>
+        </section>
+
+        <section id="game-section" class="game-section">
+            <h2 class="game-title">⚡ Golden Runner ⚡</h2>
+            <p class="game-subtitle">Toca la pantalla o presiona ESPACIO para saltar</p>
+            <canvas id="gameCanvas" width="800" height="400"></canvas>
+            <div class="game-info">
+                <div class="game-score">⭐ Puntuación: <span id="score">0</span> ⭐</div>
+                <div class="game-controls">Toca para comenzar</div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Stars Background
+        const starsContainer = document.getElementById('starsContainer');
+        for (let i = 0; i < 50; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = Math.random() * 3 + 'px';
+            star.style.height = star.style.width;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // Navigation
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Quote card mouse tracking
+        document.querySelectorAll('.quote-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                card.style.setProperty('--mouse-x', x + '%');
+                card.style.setProperty('--mouse-y', y + '%');
+            });
+        });
+
+        // Quotes
+        const quotes = [
+            {text: "Y aquí estoy, mirando al vacío, donde ni el canto de los pájaros me logra acompañar. Ya no soy aquel Prometeo encendido en desafío, soy la voz que no insiste en que la quieras escuchar.\\n\\nCamino entre dudas que el alma no ha sabido nombrar, y en cada pensamiento descubro un trozo de mi propio lío. Porque a veces crecer es romper lo que uno solía cuidar, y entender que el silencio también enseña su propio brío.\\n\\nHoy no busco aplausos ni un destino fijo al cual llegar, solo ser fiel a mi esencia, aunque el mundo siga frío. Pues quien se encuentra a sí mismo, aunque tarde en llegar, nunca vuelve a temerle a la sombra ni al desvarío.", author: "Jhonatan Alejandro Betancourt Arbelaez", social: "@jhonatan_alejandro_b"},
+            {text: "Conócete a ti mismo.", author: "Sócrates", social: ""},
+            {text: "Solo sé que no sé nada.", author: "Sócrates", social: ""},
+            {text: "La vida que no es examinada no merece la pena ser vivida.", author: "Sócrates", social: ""},
+            {text: "Podemos perdonar fácilmente a un niño que tiene miedo de la oscuridad; la verdadera tragedia de la vida es cuando los hombres tienen miedo de la luz.", author: "Platón", social: ""},
+            {text: "El sabio querrá estar siempre con quien sea mejor que él.", author: "Platón", social: ""},
+            {text: "Buscando el bien de nuestros semejantes, encontramos el nuestro.", author: "Platón", social: ""},
+            {text: "Muchos hombres parecen valientes pero no lo son; pocos parecen valientes y sí lo son.", author: "Maquiavelo", social: ""},
+            {text: "Los hombres ofenden antes al que aman que al que temen.", author: "Maquiavelo", social: ""},
+            {text: "El que no teme peligros, vence con menos riesgos.", author: "Maquiavelo", social: ""},
+            {text: "Tienes poder sobre tu mente, no sobre los eventos externos. Date cuenta de esto y encontrarás fortaleza.", author: "Marco Aurelio", social: ""},
+            {text: "La felicidad de tu vida depende de la calidad de tus pensamientos.", author: "Marco Aurelio", social: ""},
+            {text: "Lo que no es útil para la colmena, no es útil para la abeja.", author: "Marco Aurelio", social: ""},
+            {text: "Quien tiene un porqué para vivir puede soportar casi cualquier cómo.", author: "Friedrich Nietzsche", social: ""},
+            {text: "Lo que no me mata, me fortalece.", author: "Friedrich Nietzsche", social: ""},
+            {text: "Uno debe convertirse en lo que es.", author: "Friedrich Nietzsche", social: ""},
+            {text: "No es que tengamos poco tiempo, sino que perdemos mucho.", author: "Séneca", social: ""},
+            {text: "La suerte es lo que sucede cuando la preparación se encuentra con la oportunidad.", author: "Séneca", social: ""},
+            {text: "No hay viento favorable para el que no sabe a dónde va.", author: "Séneca", social: ""},
+            {text: "No te salves ahora ni nunca. No te salves. No te llenes de calma. No reserves del mundo solo un rincón tranquilo.", author: "Mario Benedetti", social: ""},
+            {text: "Cuando creíamos que teníamos todas las respuestas, de pronto, cambiaron todas las preguntas.", author: "Mario Benedetti", social: ""},
+            {text: "Hay momentos en que todo se reduce a una sola cosa: a no aflojar.", author: "Mario Benedetti", social: ""},
+            {text: "La vida es hoy. No ayer. No mañana.", author: "Mario Benedetti", social: ""},
+            {text: "¿Y si después de tantas palabras, no sobrevive la palabra? ¿Si después de tanto amor, no sobrevive el amor?", author: "Mario Benedetti", social: ""},
+            {text: "El conocimiento de uno mismo es el principio de toda sabiduría.", author: "Aristóteles", social: ""},
+            {text: "La esperanza es el sueño del hombre despierto.", author: "Aristóteles", social: ""}
+        ];
+
+        function renderQuotes() {
+            const grid = document.getElementById('quotesGrid');
+            grid.innerHTML = quotes.map((q, i) => {
+                let socialHtml = '';
+                if (q.social) {
+                    const link = q.social.startsWith('http') ? q.social : `https://instagram.com/${q.social.replace('@', '')}`;
+                    socialHtml = `<a href="${link}" target="_blank" class="author-social"><svg class="social-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>${q.social}</a>`;
+                }
+                return `<div class="quote-card"><div class="quote-number">${String(i + 1).padStart(2, '0')}</div><p class="quote-text">${q.text.replace(/\\n/g, '<br><br>')}</p><div class="quote-footer"><div class="author-name">${q.author}</div>${socialHtml}</div></div>`;
+            }).join('');
+
+            // Re-attach mouse tracking after rendering
+            setTimeout(() => {
+                document.querySelectorAll('.quote-card').forEach(card => {
+                    card.addEventListener('mousemove', (e) => {
+                        const rect = card.getBoundingClientRect();
+                        const x = ((e.clientX - rect.left) / rect.width) * 100;
+                        const y = ((e.clientY - rect.top) / rect.height) * 100;
+                        card.style.setProperty('--mouse-x', x + '%');
+                        card.style.setProperty('--mouse-y', y + '%');
+                    });
+                });
+            }, 100);
+        }
+        renderQuotes();
+
+        // GAME
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreEl = document.getElementById('score');
+
+        let W = canvas.width;
+        let H = canvas.height;
+
+        function resize() {
+            const max = Math.min(800, canvas.parentElement.clientWidth - 40);
+            canvas.style.width = max + 'px';
+            canvas.style.height = (max / 2) + 'px';
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        let running = false;
+        let score = 0;
+        let speed = 5;
+        let frame = 0;
+
+        const player = {
+            x: 100, y: 300, w: 30, h: 30, vy: 0, jump: -11, onGround: false
+        };
+
+        let obstacles = [];
+        let particles = [];
+        const gravity = 0.5;
+        const groundY = 350;
+
+        function createParticle(x, y) {
+            for (let i = 0; i < 5; i++) {
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: (Math.random() - 0.5) * 4,
+                    vy: Math.random() * -3,
+                    life: 30,
+                    maxLife: 30
+                });
+            }
+        }
+
+        function updateParticles() {
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.2;
+                p.life--;
+                if (p.life <= 0) particles.splice(i, 1);
+            }
+        }
+
+        function drawParticles() {
+            particles.forEach(p => {
+                const alpha = p.life / p.maxLife;
+                ctx.fillStyle = `rgba(255, 215, 0, ${alpha})`;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+                ctx.fill();
+            });
+        }
+
+        function doJump() {
+            if (player.onGround && running) {
+                player.vy = player.jump;
+                player.onGround = false;
+                createParticle(player.x + player.w/2, player.y + player.h);
+            }
+        }
+
+        function update() {
+            if (!running) return;
+
+            player.vy += gravity;
+            player.y += player.vy;
+            
+            if (player.y >= 300) {
+                player.y = 300;
+                player.vy = 0;
+                player.onGround = true;
+            } else {
+                player.onGround = false;
+            }
+
+            frame++;
+            if (frame % 100 === 0) {
+                const h = 30 + Math.random() * 40;
+                obstacles.push({ x: W, y: groundY - h, w: 25, h: h });
+            }
+
+            for (let i = obstacles.length - 1; i >= 0; i--) {
+                obstacles[i].x -= speed;
+                
+                const o = obstacles[i];
+                if (player.x < o.x + o.w && player.x + player.w > o.x && player.y < o.y + o.h && player.y + player.h > o.y) {
+                    gameOver();
+                }
+
+                if (o.x + o.w < 0) {
+                    obstacles.splice(i, 1);
+                    score++;
+                    scoreEl.textContent = score;
+                    if (score % 10 === 0) speed += 0.5;
+                }
+            }
+
+            updateParticles();
+        }
+
+        function draw() {
+            const gradient = ctx.createLinearGradient(0, 0, 0, H);
+            gradient.addColorStop(0, '#000000');
+            gradient.addColorStop(1, '#0a0a0a');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, W, H);
+
+            ctx.strokeStyle = 'rgba(255, 215, 0, 0.2)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(0, groundY);
+            ctx.lineTo(W, groundY);
+            ctx.stroke();
+
+            ctx.save();
+            ctx.translate(player.x + player.w/2, player.y + player.h/2);
+            ctx.rotate(Math.PI / 4);
+            
+            ctx.shadowBlur = 25;
+            ctx.shadowColor = '#ffd700';
+            ctx.fillStyle = '#ffd700';
+            ctx.fillRect(-player.w/2, -player.h/2, player.w, player.h);
+            
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(-player.w/2, -player.h/2, player.w, player.h);
+            ctx.restore();
+
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = '#ff8c00';
+            ctx.fillStyle = '#ff8c00';
+            obstacles.forEach(o => {
+                ctx.fillRect(o.x, o.y, o.w, o.h);
+            });
+
+            drawParticles();
+        }
+
+        function gameOver() {
+            running = false;
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
+            ctx.fillRect(0, 0, W, H);
+            
+            ctx.shadowBlur = 30;
+            ctx.shadowColor = '#ffd700';
+            ctx.fillStyle = '#ffd700';
+            ctx.font = 'bold 48px "Crimson Text"';
+            ctx.textAlign = 'center';
+            ctx.fillText('Game Over', W/2, H/2 - 30);
+            
+            ctx.shadowBlur = 15;
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '24px Inter';
+            ctx.fillText(`⭐ Puntuación: ${score} ⭐`, W/2, H/2 + 20);
+            
+            ctx.shadowBlur = 10;
+            ctx.fillStyle = '#888888';
+            ctx.font = '18px Inter';
+            ctx.fillText('Toca para reiniciar', W/2, H/2 + 60);
+        }
+
+        function reset() {
+            player.y = 300;
+            player.vy = 0;
+            player.onGround = true;
+            obstacles = [];
+            particles = [];
+            score = 0;
+            scoreEl.textContent = 0;
+            speed = 5;
+            frame = 0;
+            running = true;
+        }
+
+        function loop() {
+            update();
+            draw();
+            requestAnimationFrame(loop);
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                if (!running) reset();
+                else doJump();
+            }
+        });
+
+        canvas.addEventListener('touchstart', e => {
+            e.preventDefault();
+            if (!running) reset();
+            else doJump();
+        }, { passive: false });
+
+        canvas.addEventListener('click', e => {
+            e.preventDefault();
+            if (!running) reset();
+            else doJump();
+        });
+
+        loop();
+    </script>
+</body>
+</html>
